@@ -10,6 +10,8 @@ const goalController = {
     // @route POST /api/goals
     // access Private
     addGoal : (req, res) => {
+        if (! req.body.title)
+         throw new Error("Title cannot be empty")
         res.status(201).json({message: "Goal created"})
     },
 
