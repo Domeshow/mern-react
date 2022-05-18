@@ -8,8 +8,7 @@ const userController = {
     // @route GET /api/users
     // access Private
     profile : expressHandler(async (req, res) => {
-        const users = await User.find();
-        res.status(200).json({status: 200, data: users})
+        res.status(200).json({status: 200, data: req.user})
     }),
 
     // @desc Login user
