@@ -6,7 +6,7 @@ const goalController = {
     // @route GET /api/goals
     // access Private
     getGoals : expressHandler(async (req, res) => {
-        const goals = await Goal.find();
+        const goals = await Goal.find({user: req.user.id});
         res.status(200).json({status: 200, data: goals})
     }),
 
@@ -20,7 +20,8 @@ const goalController = {
         }
 
         const goal = {
-            text: req.body.text
+            text: req.body.text,
+            user: req.user.id
         }
         const result = await Goal.create(goal);
         res.status(201).json({status: 201, data: result})
@@ -30,7 +31,7 @@ const goalController = {
     // @route PUT /api/goals/:id
     // access Private
     updateGoal : expressHandler(async (req, res) => {
-        const goal = await Goal.findById({_id: req.params.id});
+        const goal = await Goal.findOne({_id: req.params.id, user: req.user.id});
         if(! goal) {
             return res.json({
                 status: 400,
@@ -52,7 +53,7 @@ const goalController = {
     // @route DELETE /api/goals/:id
     // access Private
     deleteGoal : expressHandler(async (req, res) => {
-        let goal = await Goal.findById({_id: req.params.id});
+        const goal = await Goal.findOne({_id: req.params.id, user: req.user.id});
         if(! goal) {
             return res.json({
                 status: 400,
