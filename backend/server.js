@@ -1,7 +1,9 @@
 const express = require('express');
 const errorHandler = require('./middlewares/errorMiddleware');
 const dotenv = require("dotenv").config();
+const db = require("./config/db")
 
+db ();
 const app = express();
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
